@@ -1,0 +1,4 @@
+﻿vi /etc/systemd/system/hellomvc.service
+systemctl start hellomvc.service
+systemctl stop hellomvc.service
+systemctl restart hellomvc.service
