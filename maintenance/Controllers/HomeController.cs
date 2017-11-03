@@ -5,15 +5,92 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using maintenance.Models;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using System.Net.Http.Headers;
+using System.IO;
 
 namespace maintenance.Controllers
 {
     public class HomeController : Controller
+
     {
+        private IHostingEnvironment hostingEnv;
+        public HomeController(IHostingEnvironment env)
+        {
+            this.hostingEnv = env;
+        }
         public IActionResult Index()
         {
             return View();
         }
+
+        [HttpPost]
+        public IActionResult New([FromServices]IHostingEnvironment env,  UserViewModel user)
+        {
+
+            var fileName = Path.Combine("upload", DateTime.Now.ToString("MMddHHmmss") + ".jpg");
+            using (var stream = new FileStream(Path.Combine(env.WebRootPath, fileName), FileMode.CreateNew))
+            {
+                user.IdCardImg.CopyTo(stream);
+            }
+
+            //var users = dbContext.Set<User>();
+            //var dbUser = new User()
+            //{
+            //    Name = user.Name,
+            //    IdCardNum = user.IdNum,
+            //    IdCardImgName = fileName
+            //};
+            //users.Add(dbUser);
+            //dbContext.SaveChanges();
+
+            return RedirectToAction(nameof(Index));
+        }
+        [HttpPost]
+   public IActionResult UploadFiles(IList<IFormFile> files)
+    {
+        long size = 0;
+        foreach(var file in files)
+        {
+            var filename = ContentDispositionHeaderValue
+                            .Parse(file.ContentDisposition)
+                            .FileName
+                           .Trim('"');
+           filename = hostingEnv.WebRootPath + $@"\{filename}";
+           size += file.Length;
+           using (FileStream fs = System.IO.File.Create(filename))
+           {
+              file.CopyTo(fs);
+              fs.Flush();
+           }
+       }
+    
+       ViewBag.Message = $"{files.Count} file(s) / {size} bytes uploaded successfully!";
+       return View();
+   }
+        [HttpPost]
+    public IActionResult UploadFilesAjax()
+    {
+       long size = 0;
+        var files = Request.Form.Files;
+       foreach (var file in files)
+       {
+          var filename = ContentDispositionHeaderValue
+                           .Parse(file.ContentDisposition)
+                           .FileName
+                           .Trim('"');
+         filename = hostingEnv.WebRootPath + $@"\{filename}";
+           size += file.Length;
+           using (FileStream fs = System.IO.File.Create(filename))
+        {
+             file.CopyTo(fs);
+              fs.Flush();
+          }
+      }
+      string message = $"{files.Count} file(s) /{size} bytes uploaded successfully!";
+      return Json(message);
+ }
 
         public IActionResult About()
         {
