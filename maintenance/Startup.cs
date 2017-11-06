@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Http.Features;
+using NLog.Extensions.Logging;
+using NLog.Web;
+using Microsoft.Extensions.Logging;
 
 namespace maintenance
 {
@@ -15,6 +18,7 @@ namespace maintenance
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+         
         }
 
         public IConfiguration Configuration { get; }
@@ -31,8 +35,12 @@ namespace maintenance
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            loggerFactory.ConfigureNLog("nlog.config");
+            loggerFactory.AddNLog();
+            //add NLog.Web
+           
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

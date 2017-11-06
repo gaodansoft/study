@@ -9,19 +9,24 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using System.Net.Http.Headers;
 using System.IO;
+using Microsoft.Extensions.Logging;
+
 
 namespace maintenance.Controllers
 {
     public class HomeController : Controller
 
     {
+        private readonly ILogger<HomeController> _logger;
         private IHostingEnvironment hostingEnv;
-        public HomeController(IHostingEnvironment env)
+        public HomeController(IHostingEnvironment env, ILogger<HomeController> logger)
         {
             this.hostingEnv = env;
+            this._logger = logger;
         }
         public IActionResult Index()
         {
+            _logger.LogInformation("index");
             return View();
         }
 
