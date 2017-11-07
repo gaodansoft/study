@@ -1,17 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 
-namespace ApplicationCore.Entities
+namespace NetCoreBBS.Entities
 {
-
-
-    public class User: BaseEntity
+    public class User: IdentityUser
     {
-        public string AccountNum { get; set; }
-        public string Pwd { get; set; }
-        public int Status { get; set; }
-        public DateTime LastLoginTime { get; set; }
-        public string Remark { get; set; }
+        public string Avatar { get; set; }
+        public string Profile { get; set; }
+        public string Url { get; set; }
+        public string GitHub { get; set; }
+        public int TopicCount { get; set; }
+        public int TopicReplyCount { get; set; }
+        public int Score { get; set; }
+        public DateTime CreateOn { get; set; }
+        public DateTime LastTime { get; set; }
     }
 }

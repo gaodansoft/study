@@ -7,22 +7,22 @@ using System.Threading.Tasks;
 
 namespace maintenance.Models
 {
-    public class UserViewModel
-    {
-        [Required]
-        [Display(Name = "姓名")]
-        public string Name { get; set; }
+    //public class UserViewModel
+    //{
+    //    [Required]
+    //    [Display(Name = "姓名")]
+    //    public string Name { get; set; }
 
-        [Required]
-        [Display(Name = "身份证")]
-        [RegularExpression(@"^(\d{15}$|^\d{18}$|^\d{17}(\d|X|x))$", ErrorMessage = "身份证号不合法")]
-        public string IdNum { get; set; }
+    //    [Required]
+    //    [Display(Name = "身份证")]
+    //    [RegularExpression(@"^(\d{15}$|^\d{18}$|^\d{17}(\d|X|x))$", ErrorMessage = "身份证号不合法")]
+    //    public string IdNum { get; set; }
 
-        public string IdCardImgName { get; set; }
+    //    public string IdCardImgName { get; set; }
 
-        [Required]
-        [Display(Name = "身份证附件")]
-        [FileExtensions(Extensions = ".jpg,.png", ErrorMessage = "图片格式错误")]
-        public IFormFile IdCardImg { get; set; }
-    }
+    //    [Required]
+    //    [Display(Name = "身份证附件")]
+    //    [FileExtensions(Extensions = ".jpg,.png", ErrorMessage = "图片格式错误")]
+    //    public IFormFile IdCardImg { get; set; }
+    //}
 }

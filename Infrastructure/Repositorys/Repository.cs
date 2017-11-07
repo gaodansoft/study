@@ -1,15 +1,12 @@
-﻿
-using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.Linq.Expressions;
-using System.Text;
-using Microsoft.EntityFrameworkCore;
-using NetCoreBBS.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
 using NetCoreBBS.Entities;
-using NetCoreBBS.Infrastructure;
+using NetCoreBBS.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
-namespace Infrastructure.Repository
+namespace NetCoreBBS.Infrastructure.Repositorys
 {
     public class Repository<T> : IRepository<T> where T : BaseEntity
     {

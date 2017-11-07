@@ -10,15 +10,26 @@ using Microsoft.AspNetCore.Http.Features;
 using NLog.Extensions.Logging;
 using NLog.Web;
 using Microsoft.Extensions.Logging;
+using NetCoreBBS.Infrastructure;
+using NetCoreBBS.Entities;
+using Microsoft.AspNetCore.Identity;
+using NetCoreBBS.Interfaces;
+using Infrastructure.Repository;
+using NetCoreBBS.Infrastructure.Repositorys;
+using Microsoft.EntityFrameworkCore;
 
 namespace maintenance
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IHostingEnvironment env)
         {
-            Configuration = configuration;
-         
+            var builder = new ConfigurationBuilder()
+             .SetBasePath(env.ContentRootPath)
+             .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+             .AddEnvironmentVariables();
+            Configuration = builder.Build();
+
         }
 
         public IConfiguration Configuration { get; }
@@ -26,6 +37,32 @@ namespace maintenance
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<DataContext>(options => options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddIdentity<User, IdentityRole>(options =>
+            {
+                options.Password = new PasswordOptions()
+                {
+                    RequireNonAlphanumeric = false,
+                    RequireUppercase = false
+                };
+            }).AddEntityFrameworkStores<DataContext>().AddDefaultTokenProviders();
+            // Add framework services.
+            services.AddMvc();
+           // services.AddSingleton<IRepository<TopicNode>, Repository<TopicNode>>();
+           // services.AddSingleton<ITopicRepository, TopicRepository>();
+            //services.AddSingleton<ITopicReplyRepository, TopicReplyRepository>();
+            services.AddScoped<IUserServices, UserServices>();
+            services.AddScoped<UserServices>();
+            services.AddMemoryCache();
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy(
+                    "Admin",
+                    authBuilder =>
+                    {
+                        authBuilder.RequireClaim("Admin", "Allowed");
+                    });
+            });
             services.AddMvc();
             services.Configure<FormOptions>(x =>
             {

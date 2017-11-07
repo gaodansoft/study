@@ -34,11 +34,11 @@ namespace maintenance.Controllers
         public IActionResult New([FromServices]IHostingEnvironment env,  UserViewModel user)
         {
 
-            var fileName = Path.Combine("upload", DateTime.Now.ToString("MMddHHmmss") + ".jpg");
-            using (var stream = new FileStream(Path.Combine(env.WebRootPath, fileName), FileMode.CreateNew))
-            {
-                user.IdCardImg.CopyTo(stream);
-            }
+            //var fileName = Path.Combine("upload", DateTime.Now.ToString("MMddHHmmss") + ".jpg");
+            //using (var stream = new FileStream(Path.Combine(env.WebRootPath, fileName), FileMode.CreateNew))
+            //{
+            //    user.IdCardImg.CopyTo(stream);
+            //}
 
             //var users = dbContext.Set<User>();
             //var dbUser = new User()
