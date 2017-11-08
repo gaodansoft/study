@@ -10,7 +10,8 @@ using Microsoft.AspNetCore.Http;
 using System.Net.Http.Headers;
 using System.IO;
 using Microsoft.Extensions.Logging;
-
+using Microsoft.AspNetCore.Identity;
+using NetCoreBBS.Entities;
 
 namespace maintenance.Controllers
 {
@@ -19,15 +20,22 @@ namespace maintenance.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private IHostingEnvironment hostingEnv;
-        public HomeController(IHostingEnvironment env, ILogger<HomeController> logger)
+        private SignInManager<User> SignInManager;
+        public HomeController(IHostingEnvironment env, ILogger<HomeController> logger, SignInManager<User> signInManager)
         {
             this.hostingEnv = env;
             this._logger = logger;
+            this.SignInManager = signInManager;
+
         }
         public IActionResult Index()
         {
-            _logger.LogInformation("index");
-            return View();
+           if(SignInManager.IsSignedIn(User))
+                return View();
+           else
+               return RedirectToAction("Login", "Account");
+
+
         }
 
         [HttpPost]

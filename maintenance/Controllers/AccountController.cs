@@ -34,6 +34,7 @@ namespace maintenance.Controllers
         // GET: /Account/Login
         public IActionResult Login(string returnUrl = null)
         {
+           
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }
@@ -108,8 +109,8 @@ namespace maintenance.Controllers
 
         //
         // POST: /Account/LogOff
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
         public async Task<ActionResult> LogOff()
         {
             var userName = HttpContext.User.Identity.Name;

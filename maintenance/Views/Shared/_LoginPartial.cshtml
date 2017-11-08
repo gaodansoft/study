@@ -3,34 +3,104 @@
 
 @if (SignInManager.IsSignedIn(User))
 {
-    <form asp-controller="Account" asp-action="LogOff" method="post" id="logoutForm" class="navbar-right">
-        <ul class="nav navbar-nav navbar-right">
-            <li>
-                <div class="btn-group" style="margin-top:8px;">
-                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        @UserManager.GetUserName(User)<span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><a asp-controller="User" asp-action="Index">个人中心</a></li>
-                        <li><a asp-controller="User" asp-action="Edit">编辑个人信息</a></li>
-                        @if (UserManager.GetUserName(User).Equals("admin"))
-                        {
-                            <li role="separator" class="divider"></li>
-                            <li><a asp-area="Admin" asp-controller="Manage" asp-action="Index">管理中心</a></li>
-                        }
-                    </ul>
+   <!-- NAVBAR -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="brand">
+            <a href="index.html"><img src="~/assets/img/logo-dark.png" alt="Klorofil Logo" class="img-responsive logo"></a>
+        </div>
+        <div class="container-fluid">
+            <div class="navbar-btn">
+                <button type="button" class="btn-toggle-fullwidth"><i class="lnr lnr-arrow-left-circle"></i></button>
+            </div>
+            <form class="navbar-form navbar-left">
+                <div class="input-group">
+                    <input type="text" value="" class="form-control" placeholder="请输入...">
+                    <span class="input-group-btn"><button type="button" class="btn btn-primary">查找</button></span>
                 </div>
-            </li>
-            <li><a href="javascript:document.getElementById('logoutForm').submit()">注销</a></li>
-            <li><a asp-controller="Home" asp-action="About">关于</a></li>
-        </ul>
-    </form>
+            </form>
+            <div class="navbar-btn navbar-btn-right">
+                <a class="btn btn-success update-pro" href="#downloads/klorofil-pro-bootstrap-admin-dashboard-template/?utm_source=klorofil&utm_medium=template&utm_campaign=KlorofilPro" title="Upgrade to Pro" target="_blank"><i class="fa fa-rocket"></i> <span>升级到专业版</span></a>
+            </div>
+            <div id="navbar-menu">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle icon-menu" data-toggle="dropdown">
+                            <i class="lnr lnr-alarm"></i>
+                            <span class="badge bg-danger">2</span>
+                        </a>
+                        <ul class="dropdown-menu notifications">
+
+                            <li><a href="#" class="notification-item"><span class="dot bg-success"></span>你的消息</a></li>
+                            <li><a href="#" class="more">查看全部消息</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="lnr lnr-question-circle"></i> <span>帮助</span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">用户信息</a></li>
+                            <li><a href="#">工作数据</a></li>
+                            <li><a href="#">安全</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="~/assets/img/user.png" class="img-circle" alt="Avatar"> <span>@UserManager.GetUserName(User)</span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
+                        <ul class="dropdown-menu">
+                          
+                            <li><a asp-controller="User" class="lnr lnr-user" asp-action="Index">个人中心</a></li>
+                            <li><a asp-controller="User" class="lnr lnr-cog" asp-action="Edit">编辑个人信息</a></li>
+                            @if (UserManager.GetUserName(User).Equals("admin"))
+                            {
+                                <li><a asp-area="Admin" asp-controller="Manage" asp-action="Index">管理中心</a></li>
+                            }
+                            <li><a asp-controller="Account" class="lnr lnr-exit" asp-action="LogOff">退出</a></li>
+                        </ul>
+                    </li>
+                    <!-- <li>
+                        <a class="update-pro" href="#downloads/klorofil-pro-bootstrap-admin-dashboard-template/?utm_source=klorofil&utm_medium=template&utm_campaign=KlorofilPro" title="Upgrade to Pro" target="_blank"><i class="fa fa-rocket"></i> <span>UPGRADE TO PRO</span></a>
+                    </li> -->
+                </ul>
+            </div>
+        </div>
+    </nav>
+        <!-- END NAVBAR -->
 }
 else
 {
-    <ul class="nav navbar-nav navbar-right">
-        <li><a asp-controller="Account" asp-action="Login">登录</a></li>
-        <li><a asp-controller="Account" asp-action="Register">注册</a></li>
-        <li><a asp-controller="Home" asp-action="About">关于</a></li>
-    </ul>
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="brand">
+            <a href="index.html"><img src="~/assets/img/logo-dark.png" alt="Klorofil Logo" class="img-responsive logo"></a>
+        </div>
+        <div class="container-fluid">
+            <div class="navbar-btn">
+                <button type="button" class="btn-toggle-fullwidth"><i class="lnr lnr-arrow-left-circle"></i></button>
+            </div>
+            <form class="navbar-form navbar-left">
+                <div class="input-group">
+                    <input type="text" value="" class="form-control" placeholder="请输入...">
+                    <span class="input-group-btn"><button type="button" class="btn btn-primary">查找</button></span>
+                </div>
+            </form>
+            <div class="navbar-btn navbar-btn-right">
+                <a class="btn btn-success update-pro" href="#downloads/klorofil-pro-bootstrap-admin-dashboard-template/?utm_source=klorofil&utm_medium=template&utm_campaign=KlorofilPro" title="Upgrade to Pro" target="_blank"><i class="fa fa-rocket"></i> <span>升级到专业版</span></a>
+            </div>
+            <div id="navbar-menu">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                      <a asp-controller="Account" asp-action="Login">登录</a>
+                    </li>
+                    <li class="dropdown">
+                       <a asp-controller="Account" asp-action="Register">注册</a>
+                    </li>
+                    <li class="dropdown">
+                        <a asp-controller="Home" asp-action="About">关于</a><
+                    </li>
+                    <!-- <li>
+                        <a class="update-pro" href="#downloads/klorofil-pro-bootstrap-admin-dashboard-template/?utm_source=klorofil&utm_medium=template&utm_campaign=KlorofilPro" title="Upgrade to Pro" target="_blank"><i class="fa fa-rocket"></i> <span>UPGRADE TO PRO</span></a>
+                    </li> -->
+                </ul>
+            </div>
+        </div>
+    </nav>
+        <!-- END NAVBAR -->
 }

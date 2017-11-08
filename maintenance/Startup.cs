@@ -14,7 +14,6 @@ using NetCoreBBS.Infrastructure;
 using NetCoreBBS.Entities;
 using Microsoft.AspNetCore.Identity;
 using NetCoreBBS.Interfaces;
-using Infrastructure.Repository;
 using NetCoreBBS.Infrastructure.Repositorys;
 using Microsoft.EntityFrameworkCore;
 
@@ -48,9 +47,9 @@ namespace maintenance
             }).AddEntityFrameworkStores<DataContext>().AddDefaultTokenProviders();
             // Add framework services.
             services.AddMvc();
-           // services.AddSingleton<IRepository<TopicNode>, Repository<TopicNode>>();
-           // services.AddSingleton<ITopicRepository, TopicRepository>();
-            //services.AddSingleton<ITopicReplyRepository, TopicReplyRepository>();
+             services.AddSingleton<IRepository<TopicNode>, Repository<TopicNode>>();
+            services.AddSingleton<ITopicRepository, TopicRepository>();
+            services.AddSingleton<ITopicReplyRepository, TopicReplyRepository>();
             services.AddScoped<IUserServices, UserServices>();
             services.AddScoped<UserServices>();
             services.AddMemoryCache();
@@ -87,11 +86,17 @@ namespace maintenance
             {
                 app.UseExceptionHandler("/Home/Error");
             }
-
+            app.UseDeveloperExceptionPage();
             app.UseStaticFiles();
+            app.UseAuthentication();
+            app.UseStatusCodePages();
 
             app.UseMvc(routes =>
             {
+                routes.MapRoute(
+                    name: "areaRoute",
+                    template: "{area:exists}/{controller}/{action}",
+                    defaults: new { action = "Index" });
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
